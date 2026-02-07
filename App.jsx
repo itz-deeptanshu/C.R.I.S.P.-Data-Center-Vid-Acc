@@ -1,5 +1,6 @@
-
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { io } from 'socket.io-client';
+
 import { 
   Activity, 
   Battery, 
@@ -41,6 +42,7 @@ import AudioVisualizer from './components/AudioVisualizer';
 const BASE_LOCATION = { x: 50, y: 50 };
 
 const App = () => {
+  const socket = useRef(io('http://localhost:5000')).current;
   const [probes, setProbes] = useState([]);
   const [selectedProbeId, setSelectedProbeId] = useState(null);
   const [obstacles, setObstacles] = useState([]);
@@ -199,6 +201,23 @@ const App = () => {
     setDetectionAlert({ probeId: probe.id, location: { x: probe.x, y: probe.y } });
     setTranscription(prev => [...prev.slice(-4), `[CRITICAL - ${probe.id}] Potential bio-signature at ${Math.round(probe.x)}, ${Math.round(probe.y)}`]);
   }, []);
+  useEffect(() => {
+      // This listens for the 'survivor_detected' event from your Python server.py
+      socket.on('survivor_detected', (data) => {
+        // Find the probe in your current state
+        const targetProbe = probes.find(p => p.id === data.probeId);
+        
+        if (targetProbe) {
+          // This calls YOUR existing function (line 173) to show the red popup
+          handleDetection(targetProbe);
+        }
+      });
+  
+      // Cleanup when the component unmounts
+      return () => {
+        socket.off('survivor_detected');
+      };
+    }, [probes, handleDetection]);
 
   useEffect(() => {
     const tick = () => {
@@ -677,8 +696,11 @@ const App = () => {
                         autoPlay
                         muted
                         playsInline
-                        className={`w-full h-full object-cover grayscale transition-all duration-500 ${activeCameraFeed === 'THERMAL' ? 'invert contrast-200 hue-rotate-180 brightness-150' : 'brightness-75 contrast-125'}`}
-                      />
+className={`w-full h-full object-cover transition-all duration-500 ${
+  activeCameraFeed === 'THERMAL' 
+    ? 'grayscale invert contrast-200 hue-rotate-180 brightness-150' 
+    : 'brightness-100 contrast-100'
+}`}                      />
                       <div className="absolute inset-0 pointer-events-none border-[1px] border-emerald-500/10 flex flex-col justify-between p-2">
                         <div className="flex justify-between">
                           <div className="flex items-center gap-1.5 bg-black/60 px-2 py-1 rounded">
