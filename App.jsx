@@ -696,11 +696,11 @@ const App = () => {
                         autoPlay
                         muted
                         playsInline
-className={`w-full h-full object-cover transition-all duration-500 ${
-  activeCameraFeed === 'THERMAL' 
-    ? 'grayscale invert contrast-200 hue-rotate-180 brightness-150' 
-    : 'brightness-100 contrast-100'
-}`}                      />
+                        className={`w-full h-full object-cover transition-all duration-500 ${
+                        activeCameraFeed === 'THERMAL' 
+                        ? 'grayscale invert contrast-200 hue-rotate-180 brightness-150' 
+                             : 'brightness-100 contrast-100'
+                      }`}                      />
                       <div className="absolute inset-0 pointer-events-none border-[1px] border-emerald-500/10 flex flex-col justify-between p-2">
                         <div className="flex justify-between">
                           <div className="flex items-center gap-1.5 bg-black/60 px-2 py-1 rounded">
