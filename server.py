@@ -18,21 +18,24 @@ def generate_frames():
         if not success:
             break
         
-        # Run Detection
+        # 1. Run Detection
         results = model.predict(frame, conf=0.25, verbose=False)
+        
+        # 2. Draw boxes/pose keypoints ON the frame
         annotated_frame = results[0].plot()
 
-        # Logic: If we see a human body part, tell React!
-        for r in results:
-            if r.keypoints is not None and len(r.keypoints.data) > 0:
-                # Trigger the 'survivor_detected' event in React
-                socketio.emit('survivor_detected', {'probeId': 'P01'})
+        # 3. Logic: Emit detection event via Socket
+        # We only emit if keypoints are found to avoid spamming
+        if results[0].keypoints is not None and len(results[0].keypoints.data) > 0:
+            socketio.emit('survivor_detected', {'probeId': 'P01'})
 
-        # Encode for web streaming
+        # 4. Encode and yield the frame
         ret, buffer = cv2.imencode('.jpg', annotated_frame)
         frame_bytes = buffer.tobytes()
+        
+        # Ensure the boundary '--frame' is consistent
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'--frame\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
 
 @app.route('/video_feed')
 def video_feed():
