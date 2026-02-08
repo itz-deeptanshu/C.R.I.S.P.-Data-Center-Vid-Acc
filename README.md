@@ -60,6 +60,8 @@ The C.R.I.S.P. interface supports the following tactical operations for the prob
    cd C.R.I.S.P.-Data-Center-Vid-Acc
 
 
+## Acknowledgments
+
 📂 **the detection ML**  
 ├── 📄 `server.py` 
 
