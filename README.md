@@ -104,4 +104,4 @@ The C.R.I.S.P. interface supports the following tactical operations for the prob
 * Deeptanshu CHakraborty- deeptanshuchakraborty@gmail.com
 * Ekarth Panwar- ekarthpanwar4950@gmail.com
 
-Project Link: [https://github.com/Krish0909/AudiHealth](https://github.com/Krish0909/AudiHealth)
+Project Link: [https://github.com/itz-deeptanshu/C.R.I.S.P.-Data-Center](https://github.com/itz-deeptanshu/C.R.I.S.P.-Data-Center)
