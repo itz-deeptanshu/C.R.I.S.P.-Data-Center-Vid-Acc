@@ -10,7 +10,7 @@
 
 ## Project Overview
 
-C.R.I.S.P. is a system consiting of set of probes and their Controling Interface. The system is engineered to assist search and rescue teams in navigating debris fields caused by earthquakes and other natural calamities where human access is restricted or hazardous.
+C.R.I.S.P. is a system consisting of a set of probes and their Controlling Interface. The system is engineered to assist search and rescue teams in navigating debris fields caused by earthquakes and other natural calamities where human access is restricted or hazardous.
 
 The platform facilitates real-time coordination of multiple units to locate survivors and map unstable environments using advanced localization techniques.
 
